@@ -11,7 +11,7 @@
 // - description
 // - due date for the specific task
 
-function List() {
+function ProjectList() {
     const projects = [];
 
     function Project(name = "project", tasks = [], date = "2024-12-31", description = "sample") {
@@ -21,7 +21,39 @@ function List() {
         this.description = description;
     }
 
-    const promptProject = () => {
+    // activeProject stores the index of the project the user is editing
+    let activeProject;
+
+    const promptActiveProject = () => {
+        let index;
+        do {
+            if (projects.length == 0) {
+                console.log("Error: no projects in list! Add a project first!");
+                return;
+            }
+            index = prompt(`which project would you like to edit? (enter index, max ${projects.length - 1})`);
+        } while (index >= projects.length);
+        activeProject = index;
+    }
+
+    const printActiveProject = () => {
+        // checks if activeProject has been set
+        if (!activeProject) {
+            console.log("Error: activeProject not set! Run promptActiveProject!");
+            return;
+        }
+
+        // prints to console the details of the current activeProject
+        console.log(
+            `index: ${activeProject}\n` + 
+            `name: ${projects[activeProject].name}\n` + 
+            `due date: ${projects[activeProject].date}\n` + 
+            `description: ${projects[activeProject].description}\n` + 
+            `task list: ${projects[activeProject].tasks}`
+            );
+    }
+
+    const promptProjectName = () => {
         // returns a Project object
         const name = prompt("Name of project:");
         console.log(`project: ${name}`);
@@ -29,26 +61,39 @@ function List() {
         return newProject;
     }
 
+    const promptProjectDesc = () => {
+        // changes the project description of the Project at index
+        const index = prompt("Which project would you like to update? (enter index)");
+        const description = prompt("Please enter the description of the project");
+        projects[index].description = description;
+    }
+
     const addProject = () => {
-        const project = promptProject()
+        const project = promptProjectName()
         projects.push(project);
         console.log(`Project added: ${project}`);
     }
 
-    const logProjects = () => {
+    const printProjects = () => {
         console.log(projects);
     }
 
     return {
         addProject,
-        logProjects
+        printProjects,
+        promptActiveProject,
+        printActiveProject
     }
 }
 
 function LogicController() {
-    const app = List();
+    const app = ProjectList();
+    app.printActiveProject() // this should give error
+    app.promptActiveProject() // this should give error
     app.addProject();
-    app.logProjects();
+    app.printProjects();
+    app.promptActiveProject()
+    app.printActiveProject();
 }
 
 LogicController();
