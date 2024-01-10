@@ -80,16 +80,22 @@ function ProjectList() {
         console.log(projects);
     }
 
+    const getProjects = () => {
+        return projects;
+    }
+
     return {
         Project,
         promptProjectName,
         printProjects,
         promptActiveProject,
         printActiveProject,
-        addProject
+        addProject,
+        getProjects
     }
 }
 
+/*
 function LogicController() {
     const app = ProjectList();
     app.addProject(new app.Project(app.promptProjectName()));
@@ -99,3 +105,44 @@ function LogicController() {
 }
 
 LogicController();
+*/
+
+function ScreenController() {
+    const projectList = ProjectList();
+
+    const addProject = () => {
+        const projectName = projectList.promptProjectName();
+        const newProject = new projectList.Project(projectName);
+        projectList.addProject(newProject);
+    }
+
+    const updateScreen = () => {
+        const list = projectList.getProjects();
+        const ul = document.querySelector("#list");
+        for (let i = 0; i < list.length; i++) {
+            const newProject = document.createElement("li");
+            newProject.textContent = list[i].name;
+            ul.appendChild(newProject);
+        }
+    }
+
+    const resetScreen = () => {
+        const ul = document.querySelector("#list");
+        ul.remove();
+        const newUl = document.createElement("ul");
+        newUl.setAttribute("id", "list");
+        const body = document.querySelector("body");
+        body.appendChild(newUl);
+    }
+
+
+    const addProjectButton = document.querySelector("#add-project");
+    addProjectButton.addEventListener("click", () => {
+        console.log("clicked");
+        addProject();
+        resetScreen();
+        updateScreen();
+    });
+}
+
+ScreenController();
