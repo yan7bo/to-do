@@ -84,6 +84,19 @@ function ProjectList() {
         return projects;
     }
 
+    const removeProject = (name) => {
+        projects.splice(getIndexByName(name));
+    }
+
+    const getIndexByName = (name) => {
+        for (let i = 0; i < projects.length; i++) {
+            if (projects[i].name == name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     return {
         Project,
         promptProjectName,
@@ -91,7 +104,8 @@ function ProjectList() {
         promptActiveProject,
         printActiveProject,
         addProject,
-        getProjects
+        getProjects,
+        removeProject
     }
 }
 
@@ -120,9 +134,17 @@ function ScreenController() {
         const list = projectList.getProjects();
         const ul = document.querySelector("#list");
         for (let i = 0; i < list.length; i++) {
-            const newProject = document.createElement("li");
-            newProject.textContent = list[i].name;
-            ul.appendChild(newProject);
+            const li = document.createElement("li");
+            const deleteButton = document.createElement("button");
+            const span = document.createElement("span");
+
+            li.appendChild(deleteButton);
+            deleteButton.textContent = "Delete";
+
+            li.appendChild(span);
+            span.textContent = list[i].name;
+
+            ul.appendChild(li);
         }
     }
 
@@ -135,14 +157,26 @@ function ScreenController() {
         body.appendChild(newUl);
     }
 
+    const addDeleteButtons = () => {
+        const liList = document.querySelectorAll("li");
+        liList.forEach((element) => {
+            element.querySelector("button").addEventListener("click", () => {
+                projectList.removeProject(element.querySelector("span").textContent);
+                console.log(projectList.printProjects());
+                element.remove();
+            })
+        })
+    }
 
     const addProjectButton = document.querySelector("#add-project");
     addProjectButton.addEventListener("click", () => {
-        console.log("clicked");
         addProject();
         resetScreen();
         updateScreen();
+        addDeleteButtons();
     });
+
+    
 }
 
 ScreenController();
