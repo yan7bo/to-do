@@ -6,6 +6,24 @@
     <title>Document</title>
 </head>
 <body>
+    <dialog>
+        <button id="close-dialog">Close</button>
+        <form>
+            <div class="form-row">
+                <label for="project-title">Project title:</label>
+                <input autofocus type="text" name="project-title" id="project-title" required/>
+            </div>
+            <div class="form-row">
+                <label for="project-deadline" >Project deadline:</label>
+                <input type="text" name="project-deadline" id="project-deadline" value="2024-12-31" placeholder="2024-12-31"/>
+            </div>
+            <div class="form-row">
+                <label for="project-description">Project description:</label>
+                <textarea name="project-description" id="project-description" rows="5">Description</textarea>
+            </div>
+            <button type="button" id="submit-dialog">Add Project</button>
+        </form>
+    </dialog>
     <h1>To Do:</h1>
 
     <div id="button-container">

@@ -12,7 +12,7 @@
 // - due date for the specific task
 
 function ProjectList() {
-    const projects = [];
+    let projects = [];
 
     function Project(name = "project", tasks = [], date = "2024-12-31", description = "sample") {
         this.name = name;
@@ -109,6 +109,33 @@ function ProjectList() {
     }
 }
 
+function TaskList() {
+    let tasks = [];
+    
+    function Task(name, date = "2024-01-01", description = "this is a task") {
+        this.name = name;
+        this.date = date;
+        this.description = description;
+    }
+
+    const addTask = (taskObject) => {
+        tasks.push(taskObject);
+        console.log(`Task added: ${projectObject.name}`);
+    }
+
+    const promptTaskName = () => {
+        // returns a a string
+        const name = prompt("Name of task:");
+        return name;
+    }
+
+    return {
+        Task,
+        addTask,
+        promptTaskName
+    }
+}
+
 /*
 function LogicController() {
     const app = ProjectList();
@@ -133,6 +160,7 @@ function ScreenController() {
     const updateScreen = () => {
         const list = projectList.getProjects();
         const ul = document.querySelector("#list");
+        console.log(list);
         for (let i = 0; i < list.length; i++) {
             const li = document.createElement("li");
             const deleteButton = document.createElement("button");
@@ -169,14 +197,39 @@ function ScreenController() {
     }
 
     const addProjectButton = document.querySelector("#add-project");
+    /*
     addProjectButton.addEventListener("click", () => {
         addProject();
         resetScreen();
         updateScreen();
         addDeleteButtons();
     });
+    */
 
-    
+    // adds operations to the add project dialog
+    const dialogBox = document.querySelector("dialog");
+    addProjectButton.addEventListener("click", () => {
+        dialogBox.showModal();
+    })
+
+    const closeDialog = dialogBox.querySelector("#close-dialog");
+    closeDialog.addEventListener("click", () => {
+        dialogBox.close();
+    })
+
+    const submitDialog = dialogBox.querySelector("#submit-dialog");
+    submitDialog.addEventListener("click", () => {
+        const title = dialogBox.querySelector("#project-title").value;
+        const date = dialogBox.querySelector("#project-deadline").value;
+        const description = dialogBox.querySelector("#project-description").value;
+
+        projectList.addProject(new projectList.Project(title, date, description));
+        
+        dialogBox.close();
+        resetScreen();
+        updateScreen();
+        addDeleteButtons();
+    })
 }
 
 ScreenController();
