@@ -97,6 +97,12 @@ function ProjectList() {
         return -1;
     }
 
+    const addTask = (index, taskObject) => {
+        console.log(taskObject);
+        projects[index].tasks.push(taskObject);
+        console.log(projects[index]);
+    }
+
     return {
         Project,
         promptProjectName,
@@ -105,35 +111,17 @@ function ProjectList() {
         printActiveProject,
         addProject,
         getProjects,
-        removeProject
+        removeProject,
+        getIndexByName,
+        addTask
     }
 }
 
-function TaskList() {
-    let tasks = [];
-    
-    function Task(name, date = "2024-01-01", description = "this is a task") {
-        this.name = name;
-        this.date = date;
-        this.description = description;
-    }
 
-    const addTask = (taskObject) => {
-        tasks.push(taskObject);
-        console.log(`Task added: ${projectObject.name}`);
-    }
-
-    const promptTaskName = () => {
-        // returns a a string
-        const name = prompt("Name of task:");
-        return name;
-    }
-
-    return {
-        Task,
-        addTask,
-        promptTaskName
-    }
+function Task(name, date = "2024-01-01", description = "this is a task") {
+    this.name = name;
+    this.date = date;
+    this.description = description;
 }
 
 /*
@@ -151,11 +139,13 @@ LogicController();
 function ScreenController() {
     const projectList = ProjectList();
 
+    /*
     const addProject = () => {
         const projectName = projectList.promptProjectName();
         const newProject = new projectList.Project(projectName);
         projectList.addProject(newProject);
     }
+    */
 
     const updateScreen = () => {
         const list = projectList.getProjects();
@@ -164,15 +154,44 @@ function ScreenController() {
         for (let i = 0; i < list.length; i++) {
             const li = document.createElement("li");
             const deleteButton = document.createElement("button");
+            const taskButton = document.createElement("button");
             const span = document.createElement("span");
+
+            li.classList.add("project-li");
 
             li.appendChild(deleteButton);
             deleteButton.textContent = "Delete";
+            deleteButton.classList.add("delete-button");
+
+            li.appendChild(taskButton);
+            taskButton.textContent = "Add Task";
+            taskButton.classList.add("task-button");
 
             li.appendChild(span);
             span.textContent = list[i].name;
 
             ul.appendChild(li);
+            if (list[i].tasks.length > 0) {
+                const ulTask = document.createElement("ul");
+                ulTask.classList.add("task-ul");
+                for (let j = 0; j < list[i].tasks.length; j++) {
+                    const liTask = document.createElement("li");
+                    const deleteTaskButton = document.createElement("button");
+                    const span = document.createElement("span");
+
+                    liTask.classList.add("task-li");
+
+                    liTask.appendChild(deleteTaskButton);
+                    deleteTaskButton.textContent = "Delete";
+                    deleteTaskButton.classList.add("delete-button");
+
+                    liTask.appendChild(span);
+                    span.textContent = list[i].tasks[j].name;
+
+                    ulTask.appendChild(liTask);
+                }
+                li.appendChild(ulTask);
+            }
         }
     }
 
@@ -185,50 +204,86 @@ function ScreenController() {
         body.appendChild(newUl);
     }
 
-    const addDeleteButtons = () => {
+    const addButtons = () => {
         const liList = document.querySelectorAll("li");
         liList.forEach((element) => {
-            element.querySelector("button").addEventListener("click", () => {
+            element.querySelector(".delete-button").addEventListener("click", () => {
                 projectList.removeProject(element.querySelector("span").textContent);
                 console.log(projectList.printProjects());
-                element.remove();
+                
+                const parent = element.parentNode;
+                console.log(parent, parent.childNodes.length);
+                if (parent.classList.contains("task-ul") && parent.childNodes.length == 1) {
+                    parent.remove();
+                } else {
+                    element.remove();
+                }
             })
+
+
+            if (element.classList.contains("project-li")) {
+                element.querySelector(".task-button").addEventListener("click", () => {
+                    addTaskDialog.showModal()
+    
+                    // add dataset value to identify which project
+                    const projectName = element.querySelector("span").textContent;
+                    addTaskDialog.dataset.project = projectName;
+    
+                    // modify h3 title to show the correct project name
+                    addTaskDialog.querySelector("h3").textContent = `Add a task to ${projectName}`;
+                })
+            }
+            
         })
     }
 
     const addProjectButton = document.querySelector("#add-project");
-    /*
-    addProjectButton.addEventListener("click", () => {
-        addProject();
-        resetScreen();
-        updateScreen();
-        addDeleteButtons();
-    });
-    */
 
     // adds operations to the add project dialog
-    const dialogBox = document.querySelector("dialog");
+    const addProjectDialog = document.querySelector("#add-project-dialog");
     addProjectButton.addEventListener("click", () => {
-        dialogBox.showModal();
+        addProjectDialog.showModal();
     })
 
-    const closeDialog = dialogBox.querySelector("#close-dialog");
-    closeDialog.addEventListener("click", () => {
-        dialogBox.close();
+    const closeProjectDialog = addProjectDialog.querySelector("#close-project-dialog");
+    closeProjectDialog.addEventListener("click", () => {
+        addProjectDialog.close();
     })
 
-    const submitDialog = dialogBox.querySelector("#submit-dialog");
-    submitDialog.addEventListener("click", () => {
-        const title = dialogBox.querySelector("#project-title").value;
-        const date = dialogBox.querySelector("#project-deadline").value;
-        const description = dialogBox.querySelector("#project-description").value;
+    const submitProjectDialog = addProjectDialog.querySelector("#submit-project-dialog");
+    submitProjectDialog.addEventListener("click", () => {
+        const title = addProjectDialog.querySelector("#project-title").value;
+        const date = addProjectDialog.querySelector("#project-deadline").value;
+        const description = addProjectDialog.querySelector("#project-description").value;
 
-        projectList.addProject(new projectList.Project(title, date, description));
+        projectList.addProject(new projectList.Project(title, [], date, description));
         
-        dialogBox.close();
+        addProjectDialog.close();
         resetScreen();
         updateScreen();
-        addDeleteButtons();
+        addButtons();
+    })
+
+    // adds operation to add task dialog
+    const addTaskDialog = document.querySelector("#add-task-dialog");
+    const closeTaskDialog = addTaskDialog.querySelector("#close-task-dialog");
+    closeTaskDialog.addEventListener("click", () => {
+        addTaskDialog.close();
+    })
+
+    const submitTaskDialog = addTaskDialog.querySelector("#submit-task-dialog");
+    submitTaskDialog.addEventListener("click", () => {
+        const title = addTaskDialog.querySelector("#task-title").value;
+        const date = addTaskDialog.querySelector("#task-deadline").value;
+        const description = addTaskDialog.querySelector("#task-description").value;
+        const projectName = addTaskDialog.dataset.project;
+
+        projectList.addTask(projectList.getIndexByName(projectName), new Task(title, date, description));
+        
+        addTaskDialog.close();
+        resetScreen();
+        updateScreen();
+        addButtons();
     })
 }
 
