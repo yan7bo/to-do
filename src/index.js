@@ -1,72 +1,98 @@
 import { ProjectList, Task } from "./projects.js";
+import "./style.css";
 
 function ScreenController() {
     const projectList = ProjectList();
 
     const updateScreen = () => {
         const list = projectList.getProjects();
-        const ul = document.querySelector("#list");
-        console.log(list);
+        const listContainer = document.querySelector("#list-container");
         for (let i = 0; i < list.length; i++) {
-            const li = document.createElement("li");
-            const deleteButton = document.createElement("button");
-            const taskButton = document.createElement("button");
-            const span = document.createElement("span");
+            const projectDiv = document.createElement("div");
+            projectDiv.classList.add("project-div");
+            listContainer.appendChild(projectDiv);
 
-            li.classList.add("project-li");
+            const projectTextContainer = document.createElement("div");
+            const projectTitleP = document.createElement("p");
+            const projectDescriptionP = document.createElement("p");
+            const projectDateP = document.createElement("p")
 
-            li.appendChild(deleteButton);
-            deleteButton.textContent = "Delete";
-            deleteButton.classList.add("delete-button");
+            projectDiv.appendChild(projectTextContainer);
+            projectTextContainer.appendChild(projectTitleP);
+            projectTextContainer.appendChild(projectDescriptionP);
+            projectTextContainer.appendChild(projectDateP);
 
-            li.appendChild(taskButton);
-            taskButton.textContent = "Add Task";
-            taskButton.classList.add("task-button");
+            projectTitleP.textContent = list[i].name;
+            projectTitleP.classList.add("project-title");
+            projectDescriptionP.textContent = list[i].description;
+            projectDescriptionP.classList.add("project-description");
+            projectDateP.textContent = list[i].date;
+            projectDateP.classList.add("project-date");
 
-            li.appendChild(span);
-            span.textContent = list[i].name;
+            const projectButtonContainer = document.createElement("div");
+            const projectDeleteButton = document.createElement("button");
+            const projectTaskButton = document.createElement("button");
 
-            ul.appendChild(li);
-            if (list[i].tasks.length > 0) {
-                const ulTask = document.createElement("ul");
-                ulTask.classList.add("task-ul");
-                for (let j = 0; j < list[i].tasks.length; j++) {
-                    const liTask = document.createElement("li");
-                    const deleteTaskButton = document.createElement("button");
-                    const span = document.createElement("span");
+            projectDiv.appendChild(projectButtonContainer);
+            projectButtonContainer.appendChild(projectDeleteButton);
+            projectButtonContainer.appendChild(projectTaskButton);
 
-                    liTask.classList.add("task-li");
+            projectButtonContainer.classList.add("button-container")
+            projectDeleteButton.textContent = "Delete";
+            projectDeleteButton.classList.add("delete-button");
+            projectTaskButton.textContent = "Add Task";
+            projectTaskButton.classList.add("task-button");
 
-                    liTask.appendChild(deleteTaskButton);
-                    deleteTaskButton.textContent = "Delete";
-                    deleteTaskButton.classList.add("delete-button");
+            for (let j = 0; j < list[i].tasks.length; j++) {
+                const taskDiv = document.createElement("div");
+                taskDiv.classList.add("task-div");
+                listContainer.appendChild(taskDiv);
 
-                    liTask.appendChild(span);
-                    span.textContent = list[i].tasks[j].name;
+                const taskTextContainer = document.createElement("div");
+                const taskTitleP = document.createElement("p");
+                const taskDescriptionP = document.createElement("p");
+                const taskDateP = document.createElement("p")
 
-                    ulTask.appendChild(liTask);
-                }
-                li.appendChild(ulTask);
+                taskDiv.appendChild(taskTextContainer);
+                taskTextContainer.appendChild(taskTitleP);
+                taskTextContainer.appendChild(taskDescriptionP);
+                taskTextContainer.appendChild(taskDateP);
+
+                taskTitleP.textContent = list[i].tasks[j].name;
+                taskTitleP.classList.add("task-title");
+                taskDescriptionP.textContent = list[i].tasks[j].description;
+                taskDescriptionP.classList.add("task-description");
+                taskDateP.textContent = list[i].tasks[j].date;
+                taskDateP.classList.add("task-date");
+
+                const taskButtonContainer = document.createElement("div");
+                const taskDeleteButton = document.createElement("button");
+
+                taskDiv.appendChild(taskButtonContainer);
+                taskButtonContainer.appendChild(taskDeleteButton);
+
+                taskDeleteButton.textContent = "Delete";
+                taskDeleteButton.classList.add("delete-button");
             }
         }
     }
 
     const resetScreen = () => {
-        const ul = document.querySelector("#list");
-        ul.remove();
-        const newUl = document.createElement("ul");
-        newUl.setAttribute("id", "list");
+        const listContainer = document.querySelector("#list-container");
+        listContainer.remove();
+        const newContainer = document.createElement("div");
+        newContainer.setAttribute("id", "list-container");
         const body = document.querySelector("body");
-        body.appendChild(newUl);
+        body.appendChild(newContainer);
     }
 
     const addButtons = () => {
-        const liList = document.querySelectorAll("li");
-        liList.forEach((element) => {
+        const divList = document.querySelectorAll(".project-div");
+        divList.forEach((element) => {
             element.querySelector(".delete-button").addEventListener("click", () => {
-                projectList.removeProject(element.querySelector("span").textContent);
-                console.log(projectList.printProjects());
+                projectList.removeProject(element.querySelector(".project-title").textContent);
                 
+                /*
                 const parent = element.parentNode;
                 console.log(parent, parent.childNodes.length);
                 if (parent.classList.contains("task-ul") && parent.childNodes.length == 1) {
@@ -74,15 +100,17 @@ function ScreenController() {
                 } else {
                     element.remove();
                 }
+                */
+               element.remove();
             })
 
 
-            if (element.classList.contains("project-li")) {
+            if (element.classList.contains("project-div")) {
                 element.querySelector(".task-button").addEventListener("click", () => {
                     addTaskDialog.showModal()
     
                     // add dataset value to identify which project
-                    const projectName = element.querySelector("span").textContent;
+                    const projectName = element.querySelector(".project-title").textContent;
                     addTaskDialog.dataset.project = projectName;
     
                     // modify h3 title to show the correct project name
