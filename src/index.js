@@ -12,6 +12,11 @@ function ScreenController() {
             projectDiv.classList.add("project-div");
             listContainer.appendChild(projectDiv);
 
+            const projectCheckbox = document.createElement("input");
+            projectDiv.appendChild(projectCheckbox);
+            projectCheckbox.setAttribute("type", "checkbox");
+            projectCheckbox.classList.add("project-checkbox");
+
             const projectTextContainer = document.createElement("div");
             const projectTitleP = document.createElement("p");
             const projectDescriptionP = document.createElement("p");
@@ -47,6 +52,11 @@ function ScreenController() {
                 const taskDiv = document.createElement("div");
                 taskDiv.classList.add("task-div");
                 listContainer.appendChild(taskDiv);
+
+                const taskCheckbox = document.createElement("input");
+                taskDiv.appendChild(taskCheckbox);
+                taskCheckbox.setAttribute("type", "checkbox");
+                taskCheckbox.classList.add("task-checkbox");
 
                 const taskTextContainer = document.createElement("div");
                 const taskTitleP = document.createElement("p");
