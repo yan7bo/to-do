@@ -74,12 +74,21 @@ function ProjectList() {
     }
 
     const removeProject = (name) => {
-        projects.splice(getIndexByName(name));
+        projects.splice(getProjectIndexByName(name), 1);
     }
 
-    const getIndexByName = (name) => {
+    const getProjectIndexByName = (name) => {
         for (let i = 0; i < projects.length; i++) {
             if (projects[i].name == name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    const getTaskIndexByName = (projectIndex, taskName) => {
+        for (let i = 0; i < projects[projectIndex].tasks.length; i++) {
+            if (projects[projectIndex].tasks[i].name == taskName) {
                 return i;
             }
         }
@@ -92,6 +101,13 @@ function ProjectList() {
         console.log(projects[index]);
     }
 
+    const removeTask = (projectName, taskName) => {
+        const projectIndex = getProjectIndexByName(projectName);
+        const taskIndex = getTaskIndexByName(projectIndex, taskName);
+        projects[projectIndex].tasks.splice(taskIndex);
+        console.log(projects[projectIndex]);
+    }
+
     return {
         Project,
         promptProjectName,
@@ -101,8 +117,9 @@ function ProjectList() {
         addProject,
         getProjects,
         removeProject,
-        getIndexByName,
-        addTask
+        getProjectIndexByName,
+        addTask,
+        removeTask
     }
 }
 

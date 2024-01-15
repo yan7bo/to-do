@@ -51,6 +51,7 @@ function ScreenController() {
             for (let j = 0; j < list[i].tasks.length; j++) {
                 const taskDiv = document.createElement("div");
                 taskDiv.classList.add("task-div");
+                taskDiv.setAttribute("data-project", list[i].name);
                 listContainer.appendChild(taskDiv);
 
                 const taskCheckbox = document.createElement("input");
@@ -97,38 +98,40 @@ function ScreenController() {
     }
 
     const addButtons = () => {
-        const divList = document.querySelectorAll(".project-div");
-        divList.forEach((element) => {
+        const projectDivList = document.querySelectorAll(".project-div");
+        projectDivList.forEach((element) => {
             element.querySelector(".delete-button").addEventListener("click", () => {
                 projectList.removeProject(element.querySelector(".project-title").textContent);
-                
-                /*
-                const parent = element.parentNode;
-                console.log(parent, parent.childNodes.length);
-                if (parent.classList.contains("task-ul") && parent.childNodes.length == 1) {
-                    parent.remove();
-                } else {
-                    element.remove();
-                }
-                */
-               element.remove();
+                console.log(projectList.getProjects());
+                resetScreen();
+                updateScreen();
+               // delete all tasks associated with the project being deleted
             })
 
 
-            if (element.classList.contains("project-div")) {
-                element.querySelector(".task-button").addEventListener("click", () => {
-                    addTaskDialog.showModal()
-    
-                    // add dataset value to identify which project
-                    const projectName = element.querySelector(".project-title").textContent;
-                    addTaskDialog.dataset.project = projectName;
-    
-                    // modify h3 title to show the correct project name
-                    addTaskDialog.querySelector("h3").textContent = `Add a task to ${projectName}`;
-                })
-            }
-            
+            element.querySelector(".task-button").addEventListener("click", () => {
+                addTaskDialog.showModal()
+
+                // add dataset value to identify which project
+                const projectName = element.querySelector(".project-title").textContent;
+                addTaskDialog.dataset.project = projectName;
+
+                // modify h3 title to show the correct project name
+                addTaskDialog.querySelector("h3").textContent = `Add a task to ${projectName}`;
+            })
         })
+
+        const taskDivList = document.querySelectorAll(".task-div");
+        taskDivList.forEach((element) => {
+            const projectName = element.dataset.project;
+            element.querySelector(".delete-button").addEventListener("click", () => {
+                const taskName = element.querySelector(".task-title").textContent;
+                console.log(`removing task ${taskName} from project ${projectName}`);
+                projectList.removeTask(projectName, taskName);
+                element.remove();
+            })
+        })
+
     }
 
     const addProjectButton = document.querySelector("#add-project");
@@ -172,7 +175,7 @@ function ScreenController() {
         const description = addTaskDialog.querySelector("#task-description").value;
         const projectName = addTaskDialog.dataset.project;
 
-        projectList.addTask(projectList.getIndexByName(projectName), new Task(title, date, description));
+        projectList.addTask(projectList.getProjectIndexByName(projectName), new Task(title, date, description));
         
         addTaskDialog.close();
         resetScreen();
