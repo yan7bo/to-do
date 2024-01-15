@@ -89,12 +89,18 @@ function ScreenController() {
     }
 
     const resetScreen = () => {
+        /*
         const listContainer = document.querySelector("#list-container");
         listContainer.remove();
         const newContainer = document.createElement("div");
         newContainer.setAttribute("id", "list-container");
         const body = document.querySelector("body");
         body.appendChild(newContainer);
+        */
+        const projectDivList = document.querySelectorAll(".project-div");
+        projectDivList.forEach((element) => {
+            element.remove();
+        })
     }
 
     const addButtons = () => {

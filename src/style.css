@@ -24,6 +24,21 @@ body h1 {
     padding-bottom: 8px;
 }
 
+#add-project {
+    background-color: #fff;
+    border: none;
+}
+
+#add-project:hover {
+    color: #797a80;
+}
+
+#button-container {
+    border-top: 1px solid #797a80;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
 .project-checkbox,
 .task-checkbox {
     margin-top: 4px;
