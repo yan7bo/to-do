@@ -1,0 +1,7 @@
+To do list for to-do app:
+- Add temporary projects and tasks so that it is easy to do the following
+- Change add project and add task dialog to be inline
+- Ability to edit name and description of projects
+- Ability to change date (use date input)
+- Changing date without dialog box
+- clean code, refactor to more readability
