@@ -8,3 +8,4 @@ To do list for to-do app:
 - if date is left empty when adding dates, the date should default to today's date
 - Changing date without dialog box
 - clean code, refactor to more readability
+- Adds functionality to mark projects as completed

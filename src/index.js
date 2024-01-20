@@ -125,6 +125,16 @@ function ScreenController() {
                 // modify h3 title to show the correct project name
                 addTaskDialog.querySelector("h3").textContent = `Add a task to ${projectName}`;
             })
+
+            // adds hover
+            element.addEventListener("mouseover", () => {
+                const title = element.querySelector(".project-title");
+                title.style.color = "blue";
+            })
+            element.addEventListener("mouseout", () => {
+                const title = element.querySelector(".project-title");
+                title.style.color = "black";
+            })
         })
 
         const taskDivList = document.querySelectorAll(".task-div");
@@ -135,6 +145,15 @@ function ScreenController() {
                 console.log(`removing task ${taskName} from project ${projectName}`);
                 projectList.removeTask(projectName, taskName);
                 element.remove();
+            })
+
+            element.addEventListener("mouseover", () => {
+                const title = element.querySelector(".task-title");
+                title.style.color = "blue";
+            })
+            element.addEventListener("mouseout", () => {
+                const title = element.querySelector(".task-title");
+                title.style.color = "black";
             })
         })
 
