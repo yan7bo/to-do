@@ -188,6 +188,48 @@ function ScreenController() {
         updateScreen();
         addButtons();
     })
+
+    const addSampleData = (() => {
+        const project1 = new projectList.Project(
+            "Make to-do app",
+            [
+                new Task(
+                    "Create index.html",
+                    "2024-01-31",
+                    "Create the html layout to display all projects and tasks."
+                ),
+                new Task(
+                    "Create add project functionality",
+                    "2024-03-31",
+                    "Use dialog box to allow the user to add projects."
+                ),
+                new Task(
+                    "Create add task functionality",
+                    "2024-06-30",
+                    "Each project should have a button that allows the user to add new tasks. Each task should be displayed indented below the project they are associated with."
+                )
+            ],
+            "2024-12-31",
+            "Create an app that the user can add, edit, and remove to-do projects"
+        );
+        projectList.addProject(project1);
+
+        const project2 = new projectList.Project(
+            "Complete today's chores",
+            [
+                new Task(
+                    "Clean bedroom"
+                ),
+                new Task(
+                    "Do the dishes"
+                )
+            ],
+        );
+        projectList.addProject(project2);
+
+        updateScreen();
+        addButtons();
+    })();
 }
 
 ScreenController();
