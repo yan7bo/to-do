@@ -65,6 +65,8 @@ body h1 {
     font-size: 16px;
     color: #797a80;
     margin-left: 16px;
+    margin-bottom: 4px;
+    margin-top: 4px;
 }
 
 #add-project-form {
