@@ -128,7 +128,7 @@ function ScreenController() {
                 addTaskDialog.dataset.project = projectName;
 
                 // modify h3 title to show the correct project name
-                addTaskDialog.querySelector("h3").textContent = `Add a task to ${projectName}`;
+                addTaskDialog.querySelector("h3").textContent = `Add a task to "${projectName}"`;
             })
 
             // adds hover
@@ -282,6 +282,7 @@ function ScreenController() {
         })
     }
 
+    /*
     const closeProjectDialog = addProjectDialog.querySelector("#close-project-dialog");
     closeProjectDialog.addEventListener("click", () => {
         addProjectDialog.close();
@@ -300,15 +301,16 @@ function ScreenController() {
         updateScreen();
         addButtons();
     })
+    */
 
     // adds operation to add task dialog
     const addTaskDialog = document.querySelector("#add-task-dialog");
-    const closeTaskDialog = addTaskDialog.querySelector("#close-task-dialog");
+    const closeTaskDialog = addTaskDialog.querySelector(".cancel");
     closeTaskDialog.addEventListener("click", () => {
         addTaskDialog.close();
     })
 
-    const submitTaskDialog = addTaskDialog.querySelector("#submit-task-dialog");
+    const submitTaskDialog = addTaskDialog.querySelector(".confirm");
     submitTaskDialog.addEventListener("click", () => {
         const title = addTaskDialog.querySelector("#task-title").value;
         const date = addTaskDialog.querySelector("#task-deadline").value;

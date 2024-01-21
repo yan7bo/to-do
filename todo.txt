@@ -1,6 +1,5 @@
 To do list for to-do app:
-- Change add project and add task dialog to be inline
-- If the description is empty, then the description should not show up
+- add project form validation (check if title is blank before submitting)
 - Ability to edit name and description of projects
 - Ability to change date (use date input)
 - if date is left empty when adding dates, the date should default to today's date

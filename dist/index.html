@@ -6,41 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    <dialog id="add-project-dialog">
-        <button id="close-project-dialog">Close</button>
-        <form id="add-project-form">
-            <div class="form-row">
-                <label for="project-title">Project title:</label>
-                <input autofocus type="text" name="project-title" id="project-title" required/>
-            </div>
-            <div class="form-row">
-                <label for="project-deadline">Project deadline:</label>
-                <input type="text" name="project-deadline" id="project-deadline" value="2024-12-31" placeholder="2024-12-31"/>
-            </div>
-            <div class="form-row">
-                <label for="project-description">Project description:</label>
-                <textarea name="project-description" id="project-description" rows="5">Description:</textarea>
-            </div>
-            <button type="button" id="submit-project-dialog">Add Project</button>
-        </form>
-    </dialog>
     <dialog id="add-task-dialog" data-project="project_name">
-        <button id="close-task-dialog">Close</button>
         <h3>Add a task to Project_Name</h3>
         <form id="add-task-form">
-            <div class="form-row">
-                <label for="task-title">Task title:</label>
-                <input autofocus type="text" name="task-title" id="task-title" required/>
+            <input autofocus type="text" name="task-title" id="task-title" placeholder="Task Name" required/>
+            <input type="text" name="task-deadline" id="task-deadline" value="2024-12-31" placeholder="2024-12-31"/>
+            <textarea name="task-description" id="task-description" rows="5" placeholder="Description"></textarea>
+            <div id="add-task-button-container">
+                <button type="button" class="add-task-button cancel">Cancel</button>
+                <button type="button" class="add-task-button confirm">Confirm</button>
+            
             </div>
-            <div class="form-row">
-                <label for="task-deadline">Task deadline:</label>
-                <input type="text" name="task-deadline" id="task-deadline" value="2024-12-31" placeholder="2024-12-31"/>
-            </div>
-            <div class="form-row">
-                <label for="task-description">Task description:</label>
-                <textarea name="task-description" id="task-description" rows="5">Description:</textarea>
-            </div>
-            <button type="button" id="submit-task-dialog">Add Task</button>
         </form>
     </dialog>
     <h1>Projects:</h1>

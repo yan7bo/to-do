@@ -3,7 +3,7 @@ export { ProjectList, Task }
 function ProjectList() {
     let projects = [];
 
-    function Project(name = "project", tasks = [], date = "2024-12-31", description = "sample") {
+    function Project(name = "project", tasks = [], date = "2024-12-31", description) {
         this.name = name;
         this.tasks = tasks;
         this.date = date,
@@ -124,7 +124,7 @@ function ProjectList() {
 }
 
 
-function Task(name, date = "2024-01-01", description = "this is a task") {
+function Task(name, date = "2024-01-01", description) {
     this.name = name;
     this.date = date;
     this.description = description;

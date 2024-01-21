@@ -84,7 +84,8 @@ textarea:focus {
     outline: none;
 }
 
-#add-project-button-container {
+#add-project-button-container,
+#add-task-button-container {
     align-self: end;
     display: flex;
     gap: 8px;
@@ -93,4 +94,17 @@ textarea:focus {
 .add-project-button {
     font-size: 16px;
     padding: 4px;
+}
+
+#add-task-dialog {
+    border: solid 1px black;
+    border-radius: 12px;
+    padding: 12px;
+    width: 70%;
+}
+
+#add-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
