@@ -1,6 +1,4 @@
 To do list for to-do app:
-- hovering over a project or task should have the title color change to blue
-- Add temporary projects and tasks so that it is easy to do the following
 - Change add project and add task dialog to be inline
 - If the description is empty, then the description should not show up
 - Ability to edit name and description of projects

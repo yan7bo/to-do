@@ -101,6 +101,11 @@ function ScreenController() {
         projectDivList.forEach((element) => {
             element.remove();
         })
+
+        const taskDivList = document.querySelectorAll(".task-div");
+        taskDivList.forEach((element) => {
+            element.remove();
+        })
     }
 
     const addButtons = () => {
@@ -160,12 +165,122 @@ function ScreenController() {
     }
 
     const addProjectButton = document.querySelector("#add-project");
+    const addProjectButtonContainer = document.querySelector("#button-container");
+
+    const createAddProjectButton = () => {
+        const body = document.querySelector("body");
+        
+        const div = document.createElement("div");
+        div.setAttribute("id", "button-container");
+        body.appendChild(div);
+
+        const button = document.createElement("button");
+        button.setAttribute("type", "button");
+        button.setAttribute("id", "add-project");
+        button.classList.add("top-button");
+        button.textContent = "+ Add Project";
+        div.appendChild(button);
+
+        button.addEventListener("click", () => {
+            const addProjectButtonContainer = document.querySelector("#button-container");
+            addProjectButtonContainer.remove();
+            createAddProjectBox();
+        })
+    }
+    
 
     // adds operations to the add project dialog
+    
     const addProjectDialog = document.querySelector("#add-project-dialog");
     addProjectButton.addEventListener("click", () => {
-        addProjectDialog.showModal();
+        // addProjectDialog.showModal();
+        addProjectButtonContainer.remove();
+        createAddProjectBox();
     })
+
+    const createAddProjectBox = () => {
+        const body = document.querySelector("body");
+
+        const form = document.createElement("form");
+        form.setAttribute("id", "add-project-form");
+        form.style.border = "solid 1px black";
+        body.appendChild(form);
+
+        const titleInput = document.createElement("input");
+        titleInput.setAttribute("type", "text");
+        titleInput.setAttribute("name", "project-title");
+        titleInput.setAttribute("id", "project-title");
+        titleInput.setAttribute("placeholder", "Project Name");
+        titleInput.attributes.required = "required";
+        form.appendChild(titleInput);
+
+        const dateInput = document.createElement("input");
+        dateInput.setAttribute("type", "text");
+        dateInput.setAttribute("name", "project-date");
+        dateInput.setAttribute("id", "project-date");
+        dateInput.setAttribute("placeholder", "2024-12-31");
+        dateInput.setAttribute("value", "2024-12-31");
+        form.appendChild(dateInput);
+
+        const descriptionInput = document.createElement("textarea");
+        descriptionInput.setAttribute("name", "project-description");
+        descriptionInput.setAttribute("id", "project-description");
+        descriptionInput.setAttribute("placeholder", "Description");
+        descriptionInput.setAttribute("rows", "5");
+        form.appendChild(descriptionInput);
+
+        const buttonDiv = document.createElement("div");
+        buttonDiv.setAttribute("id", "add-project-button-container");
+        form.appendChild(buttonDiv);
+
+        const cancelButton = document.createElement("button");
+        cancelButton.classList.add("add-project-button");
+        cancelButton.classList.add("cancel");
+        cancelButton.setAttribute("type", "button");
+        cancelButton.textContent = "Cancel";
+        buttonDiv.appendChild(cancelButton);
+        
+        const confirmButton = document.createElement("button");
+        confirmButton.classList.add("add-project-button");
+        confirmButton.classList.add("confirm");
+        confirmButton.setAttribute("type", "button");
+        confirmButton.textContent = "Confirm";
+        buttonDiv.appendChild(confirmButton);
+
+        // add events to cancel and confirm buttons
+        cancelButton.addEventListener("click", () => {
+            // delete box
+            form.remove();
+
+            // add back the add project button
+            createAddProjectButton();
+        })
+
+        confirmButton.addEventListener("click", () => {
+            // capture values
+            const title = form.querySelector("#project-title").value;
+            const date = form.querySelector("#project-date").value;
+            const description = form.querySelector("#project-description").value;
+
+            // add project
+            projectList.addProject(new projectList.Project(title, [], date, description));
+
+            // reset list
+            resetScreen();
+
+            // update list
+            updateScreen();
+
+            // add buttons to list
+            addButtons();
+
+            // delete box
+            form.remove();
+
+            // add back the add project button
+            createAddProjectButton();
+        })
+    }
 
     const closeProjectDialog = addProjectDialog.querySelector("#close-project-dialog");
     closeProjectDialog.addEventListener("click", () => {
