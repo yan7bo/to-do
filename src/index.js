@@ -211,6 +211,7 @@ function ScreenController() {
         titleInput.setAttribute("name", "project-title");
         titleInput.setAttribute("id", "project-title");
         titleInput.setAttribute("placeholder", "Project Name");
+        titleInput.setAttribute("autocomplete", "off");
         titleInput.attributes.required = "required";
         form.appendChild(titleInput);
 
@@ -227,6 +228,7 @@ function ScreenController() {
         descriptionInput.setAttribute("id", "project-description");
         descriptionInput.setAttribute("placeholder", "Description");
         descriptionInput.setAttribute("rows", "5");
+        descriptionInput.setAttribute("autocomplete", "off");
         form.appendChild(descriptionInput);
 
         const buttonDiv = document.createElement("div");
@@ -262,23 +264,26 @@ function ScreenController() {
             const date = form.querySelector("#project-date").value;
             const description = form.querySelector("#project-description").value;
 
-            // add project
-            projectList.addProject(new projectList.Project(title, [], date, description));
+            // form validation: check if title is non-empty
+            if (title) {
+                // add project
+                projectList.addProject(new projectList.Project(title, [], date, description));
 
-            // reset list
-            resetScreen();
+                // reset list
+                resetScreen();
 
-            // update list
-            updateScreen();
+                // update list
+                updateScreen();
 
-            // add buttons to list
-            addButtons();
+                // add buttons to list
+                addButtons();
 
-            // delete box
-            form.remove();
+                // delete box
+                form.remove();
 
-            // add back the add project button
-            createAddProjectButton();
+                // add back the add project button
+                createAddProjectButton();
+            }
         })
     }
 

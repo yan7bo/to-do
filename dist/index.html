@@ -9,9 +9,9 @@
     <dialog id="add-task-dialog" data-project="project_name">
         <h3>Add a task to Project_Name</h3>
         <form id="add-task-form">
-            <input autofocus type="text" name="task-title" id="task-title" placeholder="Task Name" required/>
+            <input autofocus type="text" name="task-title" id="task-title" placeholder="Task Name" autocomplete="off" required/>
             <input type="text" name="task-deadline" id="task-deadline" value="2024-12-31" placeholder="2024-12-31"/>
-            <textarea name="task-description" id="task-description" rows="5" placeholder="Description"></textarea>
+            <textarea name="task-description" id="task-description" rows="5" placeholder="Description" autocomplete="off"></textarea>
             <div id="add-task-button-container">
                 <button type="button" class="add-task-button cancel">Cancel</button>
                 <button type="button" class="add-task-button confirm">Confirm</button>
