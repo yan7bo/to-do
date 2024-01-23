@@ -37,9 +37,11 @@ function ScreenController() {
             const projectButtonContainer = document.createElement("div");
             const projectDeleteButton = document.createElement("button");
             const projectTaskButton = document.createElement("button");
+            const projectEditButton = document.createElement("button");
 
             projectDiv.appendChild(projectButtonContainer);
             projectButtonContainer.appendChild(projectDeleteButton);
+            projectButtonContainer.appendChild(projectEditButton);
             projectButtonContainer.appendChild(projectTaskButton);
 
             projectButtonContainer.classList.add("button-container")
@@ -47,6 +49,8 @@ function ScreenController() {
             projectDeleteButton.classList.add("delete-button");
             projectTaskButton.textContent = "Add Task";
             projectTaskButton.classList.add("task-button");
+            projectEditButton.textContent = "Edit";
+            projectEditButton.classList.add("edit-button");
 
             for (let j = 0; j < list[i].tasks.length; j++) {
                 const taskDiv = document.createElement("div");
@@ -78,12 +82,17 @@ function ScreenController() {
 
                 const taskButtonContainer = document.createElement("div");
                 const taskDeleteButton = document.createElement("button");
+                const taskEditButton = document.createElement("button");
 
                 taskDiv.appendChild(taskButtonContainer);
                 taskButtonContainer.appendChild(taskDeleteButton);
+                taskButtonContainer.appendChild(taskEditButton);
 
+                taskButtonContainer.classList.add("button-container");
                 taskDeleteButton.textContent = "Delete";
                 taskDeleteButton.classList.add("delete-button");
+                taskEditButton.textContent = "Edit";
+                taskEditButton.classList.add("edit-button");
             }
         }
     }
@@ -119,6 +128,40 @@ function ScreenController() {
                // delete all tasks associated with the project being deleted
             })
 
+            element.querySelector(".edit-button").addEventListener("click", () => {
+                // show modal
+                const addProjectDialog = document.querySelector("#add-project-dialog");
+                addProjectDialog.querySelector("h3").textContent = "Edit details:"
+                addProjectDialog.showModal();
+                
+
+                // set input values
+                const projectNameElement = addProjectDialog.querySelector("#project-title");
+                const projectDateElement = addProjectDialog.querySelector("#project-deadline");
+                const projectDescElement = addProjectDialog.querySelector("#project-description");
+
+                projectNameElement.value = element.querySelector(".project-title").textContent;
+                projectDateElement.value = element.querySelector(".project-date").textContent;
+                projectDescElement.value = element.querySelector(".project-description").textContent;
+                
+                const index = projectList.getProjectIndexByName(projectNameElement.value);
+
+                // event handler for confirm
+                addProjectDialog.querySelector(".confirm").addEventListener("click", () => {
+                    projectList.setActiveProject(index);
+                    projectList.updateActiveProject(
+                        projectNameElement.value,
+                        projectDateElement.value,
+                        projectDescElement.value
+                        );
+                    element.querySelector(".project-title").textContent = projectNameElement.value;
+                    element.querySelector(".project-date").textContent = projectDateElement.value;
+                    element.querySelector(".project-description").textContent = projectDescElement.value;
+
+                    addProjectDialog.close();
+                })
+            })
+
 
             element.querySelector(".task-button").addEventListener("click", () => {
                 addTaskDialog.showModal()
@@ -150,6 +193,20 @@ function ScreenController() {
                 console.log(`removing task ${taskName} from project ${projectName}`);
                 projectList.removeTask(projectName, taskName);
                 element.remove();
+            })
+
+            element.querySelector(".edit-button").addEventListener("click", () => {
+                const addTaskDialog = document.querySelector("#add-task-dialog");
+                addTaskDialog.querySelector("h3").textContent = "Edit details:"
+                addTaskDialog.showModal();
+
+                const taskNameElement = addTaskDialog.querySelector("#task-title");
+                const taskDateElement = addTaskDialog.querySelector("#task-deadline");
+                const taskDescElement = addTaskDialog.querySelector("#task-description");
+
+                taskNameElement.value = element.querySelector(".task-title").textContent;
+                taskDateElement.value = element.querySelector(".task-date").textContent;
+                taskDescElement.value = element.querySelector(".task-description").textContent;
             })
 
             element.addEventListener("mouseover", () => {
@@ -192,6 +249,19 @@ function ScreenController() {
     // adds operations to the add project dialog
     
     const addProjectDialog = document.querySelector("#add-project-dialog");
+    addProjectDialog.querySelector(".cancel").addEventListener("click", () => {
+        // reset dialog input values
+        /*
+        addProjectDialog.querySelector("h3").textContent = "";
+        addProjectDialog.querySelector("#project-title").value = "";
+        addProjectDialog.querySelector("#project-deadline").value = "";
+        addProjectDialog.querySelector("#project-description").value = "";
+        */
+
+        // close dialog
+        addProjectDialog.close()
+    })
+
     addProjectButton.addEventListener("click", () => {
         // addProjectDialog.showModal();
         addProjectButtonContainer.remove();
@@ -285,7 +355,7 @@ function ScreenController() {
                 createAddProjectButton();
             }
         })
-    }
+    };
 
     /*
     const closeProjectDialog = addProjectDialog.querySelector("#close-project-dialog");
@@ -307,6 +377,8 @@ function ScreenController() {
         addButtons();
     })
     */
+
+
 
     // adds operation to add task dialog
     const addTaskDialog = document.querySelector("#add-task-dialog");

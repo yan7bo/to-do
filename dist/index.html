@@ -6,6 +6,18 @@
     <title>Document</title>
 </head>
 <body>
+    <dialog id="add-project-dialog">
+        <h3></h3>
+        <form id="add-project-form">
+            <input autofocus type="text" name="project-title" id="project-title" placeholder="Project Name" autocomplete="off" required/>
+            <input type="text" name="project-deadline" id="project-deadline" value="2024-12-31" placeholder="2024-12-31"/>
+            <textarea name="project-description" id="project-description" rows="5" placeholder="Description" autocomplete="off"></textarea>
+            <div id="add-project-button-container">
+                <button type="button" class="add-project-button cancel">Cancel</button>
+                <button type="button" class="add-project-button confirm">Confirm</button>
+            </div>
+        </form>
+    </dialog>
     <dialog id="add-task-dialog" data-project="project_name">
         <h3>Add a task to Project_Name</h3>
         <form id="add-task-form">
@@ -15,7 +27,6 @@
             <div id="add-task-button-container">
                 <button type="button" class="add-task-button cancel">Cancel</button>
                 <button type="button" class="add-task-button confirm">Confirm</button>
-            
             </div>
         </form>
     </dialog>

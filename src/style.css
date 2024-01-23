@@ -28,6 +28,11 @@ body h1 {
     padding-bottom: 8px;
 }
 
+.button-container {
+    display: flex;
+    flex-direction: column;
+}
+
 #add-project {
     background-color: #fff;
     border: none;

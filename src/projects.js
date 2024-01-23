@@ -47,6 +47,12 @@ function ProjectList() {
             );
     }
 
+    const updateActiveProject = (name, date, description) => {
+        projects[activeProject].name = name;
+        projects[activeProject].date = date;
+        projects[activeProject].description = description;
+    }
+
     const promptProjectName = () => {
         // returns a a string
         const name = prompt("Name of project:");
@@ -112,8 +118,10 @@ function ProjectList() {
         Project,
         promptProjectName,
         printProjects,
+        setActiveProject,
         promptActiveProject,
         printActiveProject,
+        updateActiveProject,
         addProject,
         getProjects,
         removeProject,
