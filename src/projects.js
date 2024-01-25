@@ -126,6 +126,7 @@ function ProjectList() {
         getProjects,
         removeProject,
         getProjectIndexByName,
+        getTaskIndexByName,
         addTask,
         removeTask
     }

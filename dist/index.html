@@ -30,6 +30,18 @@
             </div>
         </form>
     </dialog>
+    <dialog id="edit-task-dialog" data-project="project_name">
+        <h3>Edit Task:</h3>
+        <form id="edit-task-form">
+            <input autofocus type="text" name="task-title" id="edit-task-title" placeholder="Task Name" autocomplete="off" required/>
+            <input type="text" name="task-deadline" id="edit-task-deadline" value="2024-12-31" placeholder="2024-12-31"/>
+            <textarea name="task-description" id="edit-task-description" rows="5" placeholder="Description" autocomplete="off"></textarea>
+            <div id="add-task-button-container">
+                <button type="button" class="add-task-button cancel">Cancel</button>
+                <button type="button" class="add-task-button confirm">Confirm</button>
+            </div>
+        </form>
+    </dialog>
     <h1>Projects:</h1>
     <div id="list-container"></div>
     <div id="button-container">

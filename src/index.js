@@ -196,17 +196,41 @@ function ScreenController() {
             })
 
             element.querySelector(".edit-button").addEventListener("click", () => {
-                const addTaskDialog = document.querySelector("#add-task-dialog");
+                const addTaskDialog = document.querySelector("#edit-task-dialog");
                 addTaskDialog.querySelector("h3").textContent = "Edit details:"
                 addTaskDialog.showModal();
 
-                const taskNameElement = addTaskDialog.querySelector("#task-title");
-                const taskDateElement = addTaskDialog.querySelector("#task-deadline");
-                const taskDescElement = addTaskDialog.querySelector("#task-description");
+                const taskNameElement = addTaskDialog.querySelector("#edit-task-title");
+                const taskDateElement = addTaskDialog.querySelector("#edit-task-deadline");
+                const taskDescElement = addTaskDialog.querySelector("#edit-task-description");
 
                 taskNameElement.value = element.querySelector(".task-title").textContent;
                 taskDateElement.value = element.querySelector(".task-date").textContent;
                 taskDescElement.value = element.querySelector(".task-description").textContent;
+
+                const projectIndex = projectList.getProjectIndexByName(projectName);
+                const taskIndex = projectList.getTaskIndexByName(projectIndex, taskNameElement.value);
+                console.log(taskIndex);
+                console.log(projectList.getProjects()[projectIndex].tasks[taskIndex]);
+
+                // event handler for confirm
+                addTaskDialog.querySelector(".confirm").addEventListener("click", () => {
+                    projectList.getProjects()[projectIndex].tasks[taskIndex] = new Task(
+                        taskNameElement.value,
+                        taskDateElement.value,
+                        taskDescElement.value
+                    );
+                    element.querySelector(".task-title").textContent = taskNameElement.value;
+                    element.querySelector(".task-date").textContent = taskDateElement.value;
+                    element.querySelector(".task-description").textContent = taskDescElement.value;
+
+                    addTaskDialog.close();
+                })
+
+                // event handler for cancel
+                addTaskDialog.querySelector(".cancel").addEventListener("click", () => {
+                    addTaskDialog.close();
+                })
             })
 
             element.addEventListener("mouseover", () => {
