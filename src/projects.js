@@ -1,9 +1,11 @@
+import { format, parse, endOfToday } from "date-fns";
+
 export { ProjectList, Task }
 
 function ProjectList() {
     let projects = [];
 
-    function Project(name = "project", tasks = [], date = "2024-12-31", description) {
+    function Project(name = "project", tasks = [], date = endOfToday(), description) {
         this.name = name;
         this.tasks = tasks;
         this.date = date,
@@ -79,6 +81,10 @@ function ProjectList() {
         return projects;
     }
 
+    const getDate = (index) => {
+        return format(projects[index].date, "yyyy-MM-dd");
+    }
+
     const removeProject = (name) => {
         projects.splice(getProjectIndexByName(name), 1);
     }
@@ -124,6 +130,7 @@ function ProjectList() {
         updateActiveProject,
         addProject,
         getProjects,
+        getDate,
         removeProject,
         getProjectIndexByName,
         getTaskIndexByName,
@@ -133,7 +140,7 @@ function ProjectList() {
 }
 
 
-function Task(name, date = "2024-01-01", description) {
+function Task(name, date = endOfToday(), description) {
     this.name = name;
     this.date = date;
     this.description = description;

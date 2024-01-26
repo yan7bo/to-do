@@ -1,5 +1,12 @@
 import { ProjectList, Task } from "./projects.js";
+import { format, parse } from "date-fns";
 import "./style.css";
+
+const myDate = new Date(2014, 1, 11);
+console.log(format(myDate, "yyyy-MM-dd"));
+console.log(myDate);
+const newDate = parse("2024-01-01", "yyyy-MM-dd", new Date());
+console.log(newDate);
 
 function ScreenController() {
     const projectList = ProjectList();
@@ -31,7 +38,7 @@ function ScreenController() {
             projectTitleP.classList.add("project-title");
             projectDescriptionP.textContent = list[i].description;
             projectDescriptionP.classList.add("project-description");
-            projectDateP.textContent = list[i].date;
+            projectDateP.textContent = format(list[i].date, "yyyy-MM-dd");
             projectDateP.classList.add("project-date");
 
             const projectButtonContainer = document.createElement("div");
@@ -77,7 +84,7 @@ function ScreenController() {
                 taskTitleP.classList.add("task-title");
                 taskDescriptionP.textContent = list[i].tasks[j].description;
                 taskDescriptionP.classList.add("task-description");
-                taskDateP.textContent = list[i].tasks[j].date;
+                taskDateP.textContent = format(list[i].tasks[j].date, "yyyy-MM-dd");
                 taskDateP.classList.add("task-date");
 
                 const taskButtonContainer = document.createElement("div");
@@ -313,8 +320,8 @@ function ScreenController() {
         dateInput.setAttribute("type", "date");
         dateInput.setAttribute("name", "project-date");
         dateInput.setAttribute("id", "project-date");
-        dateInput.setAttribute("placeholder", "2024-12-31");
-        dateInput.setAttribute("value", "2024-12-31");
+        // dateInput.setAttribute("placeholder", "2024-12-31");
+        // dateInput.setAttribute("value", "2024-12-31");
         dateInput.classList.add("date");
         form.appendChild(dateInput);
 
@@ -434,21 +441,21 @@ function ScreenController() {
             [
                 new Task(
                     "Create index.html",
-                    "2024-01-31",
+                    new Date(2024, 0, 31),
                     "Create the html layout to display all projects and tasks."
                 ),
                 new Task(
                     "Create add project functionality",
-                    "2024-03-31",
+                    new Date(2024, 2, 31),
                     "Use dialog box to allow the user to add projects."
                 ),
                 new Task(
                     "Create add task functionality",
-                    "2024-06-30",
+                    new Date(2024, 5, 30),
                     "Each project should have a button that allows the user to add new tasks. Each task should be displayed indented below the project they are associated with."
                 )
             ],
-            "2024-12-31",
+            new Date(2024, 11, 31),
             "Create an app that the user can add, edit, and remove to-do projects"
         );
         projectList.addProject(project1);
