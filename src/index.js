@@ -310,11 +310,12 @@ function ScreenController() {
         form.appendChild(titleInput);
 
         const dateInput = document.createElement("input");
-        dateInput.setAttribute("type", "text");
+        dateInput.setAttribute("type", "date");
         dateInput.setAttribute("name", "project-date");
         dateInput.setAttribute("id", "project-date");
         dateInput.setAttribute("placeholder", "2024-12-31");
         dateInput.setAttribute("value", "2024-12-31");
+        dateInput.classList.add("date");
         form.appendChild(dateInput);
 
         const descriptionInput = document.createElement("textarea");
@@ -356,6 +357,7 @@ function ScreenController() {
             // capture values
             const title = form.querySelector("#project-title").value;
             const date = form.querySelector("#project-date").value;
+            console.log(date);
             const description = form.querySelector("#project-description").value;
 
             // form validation: check if title is non-empty
