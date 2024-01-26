@@ -161,9 +161,9 @@ function ScreenController() {
                         projectDateElement.value,
                         projectDescElement.value
                         );
-                    element.querySelector(".project-title").textContent = projectNameElement.value;
-                    element.querySelector(".project-date").textContent = projectDateElement.value;
-                    element.querySelector(".project-description").textContent = projectDescElement.value;
+                    element.querySelector(".project-title").textContent = projectList.getActiveProject().name;
+                    element.querySelector(".project-date").textContent = format(projectList.getActiveProject().date, "yyyy-MM-dd");
+                    element.querySelector(".project-description").textContent = projectList.getActiveProject().description;
 
                     addProjectDialog.close();
                 })
@@ -227,9 +227,12 @@ function ScreenController() {
                         taskDateElement.value,
                         taskDescElement.value
                     );
-                    element.querySelector(".task-title").textContent = taskNameElement.value;
-                    element.querySelector(".task-date").textContent = taskDateElement.value;
-                    element.querySelector(".task-description").textContent = taskDescElement.value;
+                    element.querySelector(".task-title").textContent = 
+                        projectList.getProjects()[projectIndex].tasks[taskIndex].name;
+                    element.querySelector(".task-date").textContent =
+                        format(projectList.getProjects()[projectIndex].tasks[taskIndex].date, "yyyy-MM-dd");
+                    element.querySelector(".task-description").textContent =
+                        projectList.getProjects()[projectIndex].tasks[taskIndex].description;
 
                     addTaskDialog.close();
                 })

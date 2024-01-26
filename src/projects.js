@@ -1,4 +1,4 @@
-import { format, parse, endOfToday } from "date-fns";
+import { format, parse, endOfToday, isValid, isDate } from "date-fns";
 
 export { ProjectList, Task }
 
@@ -8,7 +8,13 @@ function ProjectList() {
     function Project(name = "project", tasks = [], date = endOfToday(), description) {
         this.name = name;
         this.tasks = tasks;
-        this.date = date,
+        if (isDate(date)) {
+            this.date = date;
+        } else if (isValid(date)) {
+            this.date = parse(date, "yyyy-MM-dd", new Date());
+        } else {
+            this.date = endOfToday();
+        }
         this.description = description;
     }
 
@@ -51,8 +57,19 @@ function ProjectList() {
 
     const updateActiveProject = (name, date, description) => {
         projects[activeProject].name = name;
-        projects[activeProject].date = date;
+        if (isDate(date)) {
+            projects[activeProject].date = date;
+        } else if (isValid(date)) {
+            projects[activeProject].date = parse(date, "yyyy-MM-dd", new Date());
+        } else {
+            projects[activeProject].date = endOfToday();
+        }
         projects[activeProject].description = description;
+    }
+
+    // returns the Project object that is indexed by activeProject
+    const getActiveProject = () => {
+        return projects[activeProject];
     }
 
     const promptProjectName = () => {
@@ -128,6 +145,7 @@ function ProjectList() {
         promptActiveProject,
         printActiveProject,
         updateActiveProject,
+        getActiveProject,
         addProject,
         getProjects,
         getDate,
@@ -142,6 +160,12 @@ function ProjectList() {
 
 function Task(name, date = endOfToday(), description) {
     this.name = name;
-    this.date = date;
+    if (isDate(date)) {
+        this.date = date;
+    } else if (isValid(date)) {
+        this.date = parse(date, "yyyy-MM-dd", new Date());
+    } else {
+        this.date = endOfToday();
+    }
     this.description = description;
 }

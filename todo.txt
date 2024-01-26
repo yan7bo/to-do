@@ -1,4 +1,5 @@
 To do list for to-do app:
+- Problem: adding empty date results in error
 - Ability to change date (use date input)
 - if date is left empty when adding dates, the date should default to today's date
 - Changing date without dialog box
