@@ -1,7 +1,5 @@
 To do list for to-do app:
-- clean code, refactor to more readability
 - consider using OOP for ScreenController()
-- ability to save the project list (see odin project)
 - Adds functionality to mark projects as completed
 - Ability to set reminders for projects/tasks
 - views: full project list, chronological order, 
