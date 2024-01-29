@@ -2,8 +2,18 @@ import { ProjectList, Task } from "./projects.js";
 import { format, parse } from "date-fns";
 import "./style.css";
 
+/*
+const localStorage = window["localStorage"];
+localStorage.clear();
+*/
+
+
 function ScreenController() {
     const projectList = ProjectList();
+
+    // uses local storage to load saved projects
+    projectList.loadProjects();
+    projectList.printProjects();
 
     const createDivContainer = (type, currProj, currTask) => {
         const listContainer = document.querySelector("#list-container");
@@ -85,7 +95,7 @@ function ScreenController() {
 
     const resetScreen = () => {
         const divList = document.querySelectorAll(".div-container");
-        console.log(divList);
+        // console.log(divList);
         divList.forEach((element) => {
             element.remove();
        });
@@ -368,6 +378,7 @@ function ScreenController() {
         addButtons();
     })
 
+    /*
     const addSampleData = (() => {
         const project1 = new projectList.Project(
             "Make to-do app",
@@ -409,6 +420,9 @@ function ScreenController() {
         updateScreen();
         addButtons();
     })();
+    */
+   updateScreen();
+   addButtons();
 }
 
 ScreenController();

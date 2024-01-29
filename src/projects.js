@@ -1,4 +1,5 @@
 import { format, parse, endOfToday, isValid, isDate } from "date-fns";
+import { saveProjects, loadProjects } from "./storage.js";
 
 export { ProjectList, Task }
 
@@ -22,6 +23,10 @@ function ProjectList() {
         get dateStr() {
             return format(this.date, "yyyy-MM-dd");
         };
+
+        addTask(taskObject) {
+            this.tasks.push(taskObject);
+        }
     }
 
     // activeProject stores the index of the project the user is editing
@@ -71,6 +76,7 @@ function ProjectList() {
             projects[activeProject].date = endOfToday();
         };
         projects[activeProject].description = description;
+        saveProjects();
     };
 
     // returns the Project object that is indexed by activeProject
@@ -93,7 +99,8 @@ function ProjectList() {
 
     const addProject = (projectObject) => {
         projects.push(projectObject);
-        console.log(`Project added: ${projectObject.name}`);
+        // console.log(`Project added: ${projectObject.name}`);
+        saveProjects();
     };
 
     const printProjects = () => {
@@ -110,6 +117,7 @@ function ProjectList() {
 
     const removeProject = (name) => {
         projects.splice(getProjectIndexByName(name), 1);
+        saveProjects();
     };
 
     const getProjectIndexByName = (name) => {
@@ -134,6 +142,7 @@ function ProjectList() {
         console.log(taskObject);
         projects[index].tasks.push(taskObject);
         console.log(projects[index]);
+        saveProjects();
     };
 
     const removeTask = (projectName, taskName) => {
@@ -141,6 +150,59 @@ function ProjectList() {
         const taskIndex = getTaskIndexByName(projectIndex, taskName);
         projects[projectIndex].tasks.splice(taskIndex);
         console.log(projects[projectIndex]);
+        saveProjects();
+    };
+
+    const exportJSON = () => {
+        // export projects as a JSON string
+        const JSONstr = JSON.stringify(projects);
+        return JSONstr;
+    };
+
+    const saveProjects = () => {
+        const JSONstr = JSON.stringify(projects);
+        const localStorage = window["localStorage"];
+        localStorage.setItem("projectList", JSONstr);
+        console.log("Saving projects...");
+        console.log(localStorage.getItem("projectList"));
+    };
+
+    const loadProjects = () => {
+        const localStorage = window["localStorage"];
+        const JSONStr = localStorage.getItem("projectList");
+        // console.log(`JSONStr: ${JSONStr}`);
+        const JSONObject = JSON.parse(JSONStr);
+        // console.log(JSONObject);
+        if (!JSONObject) {
+            // if there is nothing stored
+            console.log("no local storage");
+            return;
+        }
+        // JSONObject is an array of Objects that store the values of a project list
+        // objects in JSONObject are not Projects themselves
+
+        // adds each project to projects
+        for (const object of JSONObject) {
+            // console.log(object);
+            const newProject = new Project(
+                object.name,
+                [],
+                object.date,
+                object.description
+            );
+
+            // adds each task to the current project
+            for (const taskObject of object.tasks) {
+                const newTask = new Task(
+                    taskObject.name,
+                    taskObject.date,
+                    taskObject.description
+                );
+                newProject.addTask(newTask);
+            };
+
+            projects.push(newProject);
+        };
     };
 
     return {
@@ -159,7 +221,9 @@ function ProjectList() {
         getProjectIndexByName,
         getTaskIndexByName,
         addTask,
-        removeTask
+        removeTask,
+        saveProjects,
+        loadProjects
     };
 }
 
